@@ -1,6 +1,7 @@
 #import "AnalyticsPlugin.h"
 #import <Cordova/CDV.h>
 #import <Analytics/SEGAnalytics.h>
+#import "SEGAppboyIntegrationFactory.h"
 
 @implementation AnalyticsPlugin : CDVPlugin
 
@@ -35,6 +36,9 @@
         SEGAnalyticsConfiguration *configuration = [SEGAnalyticsConfiguration configurationWithWriteKey:writeKey];
         configuration.shouldUseLocationServices = [useLocationServices boolValue];
         configuration.trackApplicationLifecycleEvents = true;
+
+        [configuration use:[SEGAppboyIntegrationFactory instance]];
+
         [SEGAnalytics setupWithConfiguration:configuration];
     } else {
         NSLog(@"[cordova-plugin-segment] ERROR - Invalid write key");
