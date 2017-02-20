@@ -12,7 +12,7 @@ In config.xml, you can put the following preferences:
 * \<preference name="analytics_write_key" value="{Segment write key}" />
 * \<preference name="analytics_debug_write_key" value="{Segment write key}" />
 
-##iOS Integrations Setup
+##iOS Setup
 This plugin uses cordova-plugin-cocoapods-support to automatically bundle in the Segment iOS SDK through CocaoPods.
 
 The only caveat is that you will need to run the project from AppName.xcworkspace instead of AppName.xcodeproj (this is a limitation introduced by CocoaPods itself).
@@ -20,6 +20,53 @@ The only caveat is that you will need to run the project from AppName.xcworkspac
 Also for this reason, if you are using Ionic and its command line tools, `ionic build` and `ionic run` will cause the archive build to fail. You will need to manually run the project in Xcode from AppName.xcworkspace.
 
 You might also want to consult official Segment documentation [iOS Quickstart][].
+
+##iOS Integrations Setup
+This plugin only supports the AppboySegment Integration. To enable it, add the following piece of code to
+AppDelegate.m
+
+````
+
+#import "AppDelegate.h"
+#import "MainViewController.h"
+
+#import <Analytics/SEGAnalytics.h>
+#import "SEGAppboyIntegrationFactory.h"
+
+@implementation AppDelegate
+
+- (BOOL)application:(UIApplication*)application didFinishLaunchingWithOptions:(NSDictionary*)launchOptions
+{
+    self.viewController = [[MainViewController alloc] init];
+
+    // [[SEGAppboyIntegrationFactory instance] saveLaunchOptions:launchOptions];
+
+    return [super application:application didFinishLaunchingWithOptions:launchOptions];
+}
+
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+  NSLog(@"🍀 [AppboySegment] didRegisterForRemoteNotificationsWithDeviceToken");
+  [[SEGAnalytics sharedAnalytics] registeredForRemoteNotificationsWithDeviceToken:deviceToken];
+}
+
+// iOS 8+ only
+- (void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings
+{
+  //register to receive notifications
+  [application registerForRemoteNotifications];
+}
+
+- (void)application:(UIApplication *)application
+  didReceiveRemoteNotification:(NSDictionary *)userInfo
+  fetchCompletionHandler:(void (^)(UIBackgroundFetchResult result))completionHandler
+{
+  NSLog(@"🌘 [AppboySegment] did receive remote notification");
+  [[SEGAnalytics sharedAnalytics] receivedRemoteNotification:userInfo];
+}
+
+@end
+
+````
 
 ##Android Integrations Setup
 Use Gradle:
