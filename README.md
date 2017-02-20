@@ -39,13 +39,12 @@ AppDelegate.m
 {
     self.viewController = [[MainViewController alloc] init];
 
-    // [[SEGAppboyIntegrationFactory instance] saveLaunchOptions:launchOptions];
+    [[SEGAppboyIntegrationFactory instance] saveLaunchOptions:launchOptions];
 
     return [super application:application didFinishLaunchingWithOptions:launchOptions];
 }
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
-  NSLog(@"🍀 [AppboySegment] didRegisterForRemoteNotificationsWithDeviceToken");
   [[SEGAnalytics sharedAnalytics] registeredForRemoteNotificationsWithDeviceToken:deviceToken];
 }
 
@@ -60,7 +59,6 @@ AppDelegate.m
   didReceiveRemoteNotification:(NSDictionary *)userInfo
   fetchCompletionHandler:(void (^)(UIBackgroundFetchResult result))completionHandler
 {
-  NSLog(@"🌘 [AppboySegment] did receive remote notification");
   [[SEGAnalytics sharedAnalytics] receivedRemoteNotification:userInfo];
 }
 
