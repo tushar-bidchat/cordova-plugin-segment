@@ -10,6 +10,8 @@ import com.segment.analytics.StatsSnapshot;
 import com.segment.analytics.Traits;
 import com.segment.analytics.Traits.Address;
 
+import com.segment.analytics.android.integrations.appboy.AppboyIntegration;
+
 import org.apache.cordova.BuildConfig;
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
@@ -53,6 +55,7 @@ public class AnalyticsPlugin extends CordovaPlugin {
                 cordova.getActivity().getApplicationContext(),
                 writeKey
             )
+            .use(AppboyIntegration.FACTORY)
             .logLevel(logLevel)
             .trackApplicationLifecycleEvents()
             .build();

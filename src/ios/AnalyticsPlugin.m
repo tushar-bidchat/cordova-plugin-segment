@@ -41,18 +41,18 @@
 
         [SEGAnalytics setupWithConfiguration:configuration];
 
-        if ([[UIApplication sharedApplication] respondsToSelector:@selector(registerForRemoteNotifications)]) {
-          UIUserNotificationType types = UIUserNotificationTypeAlert | UIUserNotificationTypeSound |
-          UIUserNotificationTypeBadge;
-          UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:types
-          categories:nil];
-          [[UIApplication sharedApplication] registerUserNotificationSettings:settings];
-          [[UIApplication sharedApplication] registerForRemoteNotifications];
-        } else {
-          UIRemoteNotificationType types = UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeSound |
-          UIRemoteNotificationTypeBadge;
-          [[UIApplication sharedApplication] registerForRemoteNotificationTypes:types];
-        }
+        // if ([[UIApplication sharedApplication] respondsToSelector:@selector(registerForRemoteNotifications)]) {
+        //   UIUserNotificationType types = UIUserNotificationTypeAlert | UIUserNotificationTypeSound |
+        //   UIUserNotificationTypeBadge;
+        //   UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:types
+        //   categories:nil];
+        //   [[UIApplication sharedApplication] registerUserNotificationSettings:settings];
+        //   [[UIApplication sharedApplication] registerForRemoteNotifications];
+        // } else {
+        //   UIRemoteNotificationType types = UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeSound |
+        //   UIRemoteNotificationTypeBadge;
+        //   [[UIApplication sharedApplication] registerForRemoteNotificationTypes:types];
+        // }
 
     } else {
         NSLog(@"[cordova-plugin-segment] ERROR - Invalid write key");
