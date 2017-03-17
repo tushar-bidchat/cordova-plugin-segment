@@ -50,6 +50,7 @@
         </config-file>
 
         <framework src="com.segment.analytics.android:analytics:4+" />
+        <framework src="com.appboy:appboy-segment-integration:+" />
 
         <source-file src="src/android/AnalyticsPlugin.java" target-dir="src/com/segment/analytics/cordova"/>
     </platform>
