@@ -30,11 +30,12 @@ public class AnalyticsPlugin extends CordovaPlugin {
     private Analytics analytics;
     private String writeKey;
 
-    @Override protected void pluginInitialize() {
+    @Override
+    protected void pluginInitialize() {
         String writeKeyPreferenceName;
         LogLevel logLevel;
 
-        if(BuildConfig.DEBUG) {
+        if (BuildConfig.DEBUG) {
             writeKeyPreferenceName = "analytics_debug_write_key";
             logLevel = LogLevel.VERBOSE;
         } else {
@@ -48,9 +49,10 @@ public class AnalyticsPlugin extends CordovaPlugin {
             analytics = null;
             Log.e(TAG, "Invalid write key: " + writeKey);
         } else {
+
             analytics = new Analytics.Builder(
-                cordova.getActivity().getApplicationContext(),
-                writeKey
+                    cordova.getActivity().getApplicationContext(),
+                    writeKey
             ).logLevel(logLevel).build();
 
             Analytics.setSingletonInstance(analytics);
@@ -85,6 +87,9 @@ public class AnalyticsPlugin extends CordovaPlugin {
         } else if ("flush".equals(action)) {
             flush();
             return true;
+        } else if ("shutdown".equals(action)) {
+            shutdown();
+            return true;
         } else if ("getSnapshot".equals(action)) {
             getSnapshot(callbackContext);
             return true;
@@ -95,9 +100,9 @@ public class AnalyticsPlugin extends CordovaPlugin {
 
     private void identify(JSONArray args) {
         analytics.with(cordova.getActivity().getApplicationContext()).identify(
-            optArgString(args, 0),
-            makeTraitsFromJSON(args.optJSONObject(1)),
-            null // passing options is deprecated
+                optArgString(args, 0),
+                makeTraitsFromJSON(args.optJSONObject(1)),
+                null // passing options is deprecated
         );
     }
 
@@ -141,6 +146,10 @@ public class AnalyticsPlugin extends CordovaPlugin {
         analytics.with(cordova.getActivity().getApplicationContext()).flush();
     }
 
+    private void shutdown() {
+        analytics.with(cordova.getActivity().getApplicationContext()).shutdown();
+    }
+
     private void getSnapshot(CallbackContext callbackContext) {
         StatsSnapshot snapshot = analytics.with(cordova.getActivity().getApplicationContext()).getSnapshot();
         JSONObject snapshotJSON = new JSONObject();
@@ -157,7 +166,7 @@ public class AnalyticsPlugin extends CordovaPlugin {
             PluginResult r = new PluginResult(PluginResult.Status.OK, snapshotJSON);
             r.setKeepCallback(false);
             callbackContext.sendPluginResult(r);
-        } catch(JSONException e) {
+        } catch (JSONException e) {
             e.printStackTrace();
             return;
         }
@@ -190,9 +199,9 @@ public class AnalyticsPlugin extends CordovaPlugin {
 
                 for (Map<String, Object> rawProduct : rawProducts) {
                     Product product = new Product(
-                        rawProduct.get("id") == null ? "" : (String) rawProduct.get("id"),
-                        rawProduct.get("sku") == null ? "" : (String) rawProduct.get("sku"),
-                        rawProduct.get("price") == null ? 0d : Double.valueOf(rawProduct.get("price").toString())
+                            rawProduct.get("id") == null ? "" : (String) rawProduct.get("id"),
+                            rawProduct.get("sku") == null ? "" : (String) rawProduct.get("sku"),
+                            rawProduct.get("price") == null ? 0d : Double.valueOf(rawProduct.get("price").toString())
                     );
 
                     product.putAll(rawProduct);
@@ -245,8 +254,7 @@ public class AnalyticsPlugin extends CordovaPlugin {
         return value;
     }
 
-    public static String optArgString(JSONArray args, int index)
-    {
-        return args.isNull(index) ? null :args.optString(index);
+    public static String optArgString(JSONArray args, int index) {
+        return args.isNull(index) ? null : args.optString(index);
     }
 }

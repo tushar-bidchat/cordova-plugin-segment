@@ -54,6 +54,11 @@ analytics.flush = function() {
   exec(null, null, 'AnalyticsPlugin', 'flush', []);
 };
 
+// Android only
+analytics.shutdown = function() {
+  exec(null, null, 'AnalyticsPlugin', 'shutdown', []);
+};
+
 // iOS only
 analytics.enable = function() {
   exec(null, null, 'AnalyticsPlugin', 'enable', []);
